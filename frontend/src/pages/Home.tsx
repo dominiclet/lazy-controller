@@ -8,7 +8,14 @@ const Home: React.FC = () => {
   const [socket, setSocket] = useState<Socket|null>();
 
   useEffect(() => {
-    const socket = io("http://localhost:5000")
+    const url = process.env.REACT_APP_BACKEND_URL || "http://localhost:6000";
+    console.log(url);
+
+    if (process.env.REACT_APP_BACKEND_URL == "undefined")
+      console.log("Backend URL not set, defaulting to local host");
+
+    const socket = io(url)
+    console.log(socket);
 
     socket.on("connect", () => {
       console.log("Socket connected");
