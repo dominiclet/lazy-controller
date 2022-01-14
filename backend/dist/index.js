@@ -10,7 +10,7 @@ const cors_1 = __importDefault(require("cors"));
 const robotjs_1 = __importDefault(require("robotjs"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
-const port = 5000;
+const port = 8080;
 const httpServer = (0, http_1.createServer)(app);
 const io = new socket_io_1.Server(httpServer, {
     cors: {
@@ -56,5 +56,5 @@ io.on("connection", (socket) => {
 app.get('/', (_, res) => {
     res.status(200).send();
 });
-httpServer.listen(port, () => console.log(`Running on port ${port}`));
+httpServer.listen(port, '192.168.1.114', 511, () => console.log(`Running on port ${port}`));
 //# sourceMappingURL=index.js.map

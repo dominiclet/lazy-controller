@@ -6,7 +6,7 @@ import robot from "robotjs";
 
 const app = express()
 app.use(cors());
-const port = 5000
+const port = 8080 
 const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
@@ -62,4 +62,4 @@ app.get('/', (_, res) => {
   res.status(200).send()
 })
 
-httpServer.listen(port, () => console.log(`Running on port ${port}`))
+httpServer.listen(port, '192.168.1.114', 511, () => console.log(`Running on port ${port}`))
