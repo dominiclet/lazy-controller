@@ -29,9 +29,28 @@ io.on("connection", (socket) => {
     console.log(`Accepted connection by ${socket.id}`);
     // Pause 
     socket.on("pause", () => {
-        console.log(`Pause event by ${socket.id}`);
-        console.log(robotjs_1.default);
+        console.log(`Pause by ${socket.id}`);
         robotjs_1.default.keyTap("space");
+    });
+    // Volume up
+    socket.on("vol_up", () => {
+        console.log(`Volume up by ${socket.id}`);
+        robotjs_1.default.keyTap("audio_vol_up");
+    });
+    // Volume down
+    socket.on("vol_down", () => {
+        console.log(`Volume down by ${socket.id}`);
+        robotjs_1.default.keyTap("audio_vol_down");
+    });
+    // Forward 
+    socket.on("forward", () => {
+        console.log(`Forward by ${socket.id}`);
+        robotjs_1.default.keyTap("right");
+    });
+    // Backward
+    socket.on("backward", () => {
+        console.log(`Backward by ${socket.id}`);
+        robotjs_1.default.keyTap("left");
     });
 });
 app.get('/', (_, res) => {

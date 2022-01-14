@@ -29,10 +29,33 @@ io.on("connection", (socket) => {
 
   // Pause 
   socket.on("pause", () => {
-    console.log(`Pause event by ${socket.id}`)
-    console.log(robot);
+    console.log(`Pause by ${socket.id}`)
     robot.keyTap("space");
   });
+
+  // Volume up
+  socket.on("vol_up", () => {
+    console.log(`Volume up by ${socket.id}`);
+    robot.keyTap("audio_vol_up");
+  });
+
+  // Volume down
+  socket.on("vol_down", () => {
+    console.log(`Volume down by ${socket.id}`);
+    robot.keyTap("audio_vol_down");
+  });
+
+  // Forward 
+  socket.on("forward", () => {
+    console.log(`Forward by ${socket.id}`);
+    robot.keyTap("right");
+  })
+
+  // Backward
+  socket.on("backward", () => {
+    console.log(`Backward by ${socket.id}`);
+    robot.keyTap("left");
+  })
 })
 
 app.get('/', (_, res) => {
