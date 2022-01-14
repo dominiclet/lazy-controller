@@ -17,9 +17,23 @@ const Home: React.FC = () => {
   }, []);
 
   const handlePause = () => {
-    console.log("pause")
-    console.log(socket);
     socket?.emit("pause");
+  }
+
+  const handleVolUp = () => {
+    socket?.emit("vol_up");
+  }
+
+  const handleVolDown = () => {
+    socket?.emit("vol_down");
+  }
+
+  const handleForward = () => {
+    socket?.emit("forward");
+  }
+  
+  const handleBackward = () => {
+    socket?.emit("backward");
   }
 
   return (
@@ -27,10 +41,10 @@ const Home: React.FC = () => {
       <IonContent fullscreen>
         <div className={styles.background}>
           <div className={styles.buttonsContainer}>
-            <IonIcon icon={volumeHighOutline} className={styles.volumeUp} />
-            <IonIcon icon={volumeLowOutline} className={styles.volumeDown} />
-            <IonIcon icon={playForwardOutline} className={styles.forward} />
-            <IonIcon icon={playBackOutline} className={styles.backward} />
+            <IonIcon onClick={handleVolUp} icon={volumeHighOutline} className={styles.volumeUp} />
+            <IonIcon onClick={handleVolDown} icon={volumeLowOutline} className={styles.volumeDown} />
+            <IonIcon onClick={handleForward} icon={playForwardOutline} className={styles.forward} />
+            <IonIcon onClick={handleBackward} icon={playBackOutline} className={styles.backward} />
             <div onClick={handlePause} className={styles.pausePlay} />
           </div>
         </div>
