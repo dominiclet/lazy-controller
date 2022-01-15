@@ -23,15 +23,19 @@ const Home: React.FC = () => {
     console.log(socket);
 
     socket.on("connect", () => {
-      console.log("Socket connected");
-      setSocket(socket);
-      setTimeout(() => {
-        (document.getElementById("pause") as HTMLElement).style.animationPlayState = "running"
-      }, 500);
-      setTimeout(() => fadeIn("volUp"), 2000);
-      setTimeout(() => fadeIn("forward"), 2500);
-      setTimeout(() => fadeIn("volDown"), 3000);
-      setTimeout(() => fadeIn("backward"), 3500);
+      socket.on("connect_response", (res) => {
+        if (res === "accept") {
+          console.log("Socket connected");
+          setSocket(socket);
+          setTimeout(() => {
+            (document.getElementById("pause") as HTMLElement).style.animationPlayState = "running"
+          }, 500);
+          setTimeout(() => fadeIn("volUp"), 2000);
+          setTimeout(() => fadeIn("forward"), 2500);
+          setTimeout(() => fadeIn("volDown"), 3000);
+          setTimeout(() => fadeIn("backward"), 3500);
+        } else if (res === "reject") socket.disconnect();
+      })
     })
 
     return () => {
