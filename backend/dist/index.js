@@ -24,10 +24,12 @@ io.on("connection", (socket) => {
     const allSocks = io.sockets.sockets;
     if (allSocks.size != 1) {
         console.log(`Rejected connection attempt by ${socket.id}`);
+        socket.emit("connect_response", "reject");
         socket.disconnect();
         return;
     }
     console.log(`Accepted connection by ${socket.id}. Rejecting subsequent connections.`);
+    socket.emit("connect_response", "accept");
     // Pause 
     socket.on("pause", () => {
         console.log(`Pause by ${socket.id}`);
