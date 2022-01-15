@@ -18,6 +18,10 @@ Both frontend and backend instances must be running. Importantly, the backend in
 
 The setup below assumes that you are running this over the LAN. Alternatively, localtunnel can be used to expose your server to the public.
 
+### Installation
+
+Packages for both front and backend are managed by `npm`. Run `npm install` to install dependencies. For backend, take not of installation of `Robotjs` which may not be straightforward. Refer to the `Robotjs` docs for info.
+
 ### Ports
 
 By default, the frontend listens on port 3000 and the backend listens on port 8080. Open these ports on your firewall.
