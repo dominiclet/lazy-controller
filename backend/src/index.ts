@@ -6,7 +6,8 @@ import robot from "robotjs";
 
 const app = express()
 app.use(cors());
-const port = 8080 
+const port = 8080;
+const hostname = process.env.HOST || 'localhost';
 const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
@@ -25,7 +26,7 @@ io.on("connection", (socket) => {
     return;
   } 
 
-  console.log(`Accepted connection by ${socket.id}`);
+  console.log(`Accepted connection by ${socket.id}. Rejecting subsequent connections.`);
 
   // Pause 
   socket.on("pause", () => {
@@ -56,10 +57,14 @@ io.on("connection", (socket) => {
     console.log(`Backward by ${socket.id}`);
     robot.keyTap("left");
   })
+
+  socket.on("disconnect", () => {
+    console.log(`${socket.id} disconnected. Accepting subsequent connections.`)
+  })
 })
 
 app.get('/', (_, res) => {
   res.status(200).send()
 })
 
-httpServer.listen(port, '192.168.1.114', 511, () => console.log(`Running on port ${port}`))
+httpServer.listen(port, hostname, 511, () => console.log(`Running on host: ${hostname}, port: ${port}`))
