@@ -4,14 +4,19 @@ import { volumeHighOutline, volumeLowOutline, playForwardOutline, playBackOutlin
 import { useEffect, useState } from 'react';
 import { io, Socket } from "socket.io-client";
 
+const fadeIn = (elementId: string) => {
+  const element = document.getElementById(elementId) as HTMLElement;
+  element.style.display = "block";
+}
+
 const Home: React.FC = () => {
   const [socket, setSocket] = useState<Socket|null>();
 
   useEffect(() => {
-    const url = process.env.REACT_APP_BACKEND_URL || "http://localhost:6000";
+    const url = process.env.REACT_APP_BACKEND_URL || "http://localhost:8080";
     console.log(url);
 
-    if (process.env.REACT_APP_BACKEND_URL == "undefined")
+    if (process.env.REACT_APP_BACKEND_URL === "undefined")
       console.log("Backend URL not set, defaulting to local host");
 
     const socket = io(url)
@@ -20,10 +25,23 @@ const Home: React.FC = () => {
     socket.on("connect", () => {
       console.log("Socket connected");
       setSocket(socket);
+      setTimeout(() => {
+        (document.getElementById("pause") as HTMLElement).style.animationPlayState = "running"
+      }, 500);
+      setTimeout(() => fadeIn("volUp"), 2000);
+      setTimeout(() => fadeIn("forward"), 2500);
+      setTimeout(() => fadeIn("volDown"), 3000);
+      setTimeout(() => fadeIn("backward"), 3500);
     })
+
+    return () => {
+      socket.disconnect();
+    }
   }, []);
 
   const handlePause = () => {
+    (document.getElementById("volUp") as HTMLElement).style.display = "block";
+    (document.getElementById("volUp") as HTMLElement).style.opacity = "1";
     socket?.emit("pause");
   }
 
@@ -48,11 +66,11 @@ const Home: React.FC = () => {
       <IonContent fullscreen>
         <div className={styles.background}>
           <div className={styles.buttonsContainer}>
-            <IonIcon onClick={handleVolUp} icon={volumeHighOutline} className={styles.volumeUp} />
-            <IonIcon onClick={handleVolDown} icon={volumeLowOutline} className={styles.volumeDown} />
-            <IonIcon onClick={handleForward} icon={playForwardOutline} className={styles.forward} />
-            <IonIcon onClick={handleBackward} icon={playBackOutline} className={styles.backward} />
-            <div onClick={handlePause} className={styles.pausePlay} />
+            <IonIcon id="volUp" onClick={handleVolUp} icon={volumeHighOutline} className={styles.volumeUp} />
+            <IonIcon id="volDown" onClick={handleVolDown} icon={volumeLowOutline} className={styles.volumeDown} />
+            <IonIcon id="forward" onClick={handleForward} icon={playForwardOutline} className={styles.forward} />
+            <IonIcon id="backward" onClick={handleBackward} icon={playBackOutline} className={styles.backward} />
+            <div id="pause" onClick={handlePause} className={styles.pausePlay} />
           </div>
         </div>
       </IonContent>
